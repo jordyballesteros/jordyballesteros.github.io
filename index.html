@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css"><link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css"><link rel="stylesheet" href="css/L.Control.Locate.min.css">
+        <link rel="stylesheet" href="css/qgis2web.css">
+        <link rel="stylesheet" href="css/leaflet-search.css">
+        <link rel="stylesheet" href="css/leaflet-measure.css">
+		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
+   integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
+   crossorigin=""/>
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        </style>
+        <title></title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet-src.js"></script><script src="js/L.Control.Locate.min.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="js/leaflet-measure.js"></script>
+        <script src="js/leaflet-search.js"></script>
+        <script src="data/TerminalesProyectadas_1.js"></script>
+        <script src="data/TroncalesProyectadas_2.js"></script>
+        <script src="data/SistemaintegradodeTransporte_3.js"></script>
+        <script src="data/EstacionesdelMio_4.js"></script>
+        <script src="data/CentrodeTransito_5.js"></script>
+        <script src="data/CamarasFotomulta_6.js"></script>
+	
+        <script>
+		
+        var highlightLayer;
+        function highlightFeature(e) {
+            highlightLayer = e.target;
+
+            if (e.target.feature.geometry.type === 'LineString') {
+              highlightLayer.setStyle({
+                color: '#ffff00',
+              });
+            } else {
+              highlightLayer.setStyle({
+                fillColor: '#ffff00',
+                fillOpacity: 1
+              });
+            }
+        }
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        }).fitBounds([[3.38074204764,-76.58411888],[3.51985886821,-76.3186067333]]);
+		
+        var hash = new L.Hash(map);
+        map.attributionControl.addAttribution('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a>');
+        L.control.locate().addTo(map);
+        var measureControl = new L.Control.Measure({
+            primaryLengthUnit: 'meters',
+            secondaryLengthUnit: 'kilometers',
+            primaryAreaUnit: 'sqmeters',
+            secondaryAreaUnit: 'hectares'
+        });
+        measureControl.addTo(map);
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+        }
+        var overlay_MapaBase_0 = L.tileLayer('http://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            opacity: 1.0
+        });
+        overlay_MapaBase_0.addTo(map);
+        map.addLayer(overlay_MapaBase_0);
+        function pop_TerminalesProyectadas_1(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2"><strong>tipo</strong><br />' + (feature.properties['tipo'] !== null ? Autolinker.link(String(feature.properties['tipo'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>nombre</strong><br />' + (feature.properties['nombre'] !== null ? Autolinker.link(String(feature.properties['nombre'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_TerminalesProyectadas_1_0() {
+            return {
+                pane: 'pane_TerminalesProyectadas_1',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(147,197,47,1.0)',
+            }
+        }
+        map.createPane('pane_TerminalesProyectadas_1');
+        map.getPane('pane_TerminalesProyectadas_1').style.zIndex = 401;
+        map.getPane('pane_TerminalesProyectadas_1').style['mix-blend-mode'] = 'normal';
+        var layer_TerminalesProyectadas_1 = new L.geoJson(json_TerminalesProyectadas_1, {
+            attribution: '<a href=""></a>',
+            pane: 'pane_TerminalesProyectadas_1',
+            onEachFeature: pop_TerminalesProyectadas_1,
+            style: style_TerminalesProyectadas_1_0,
+        });
+        bounds_group.addLayer(layer_TerminalesProyectadas_1);
+        map.addLayer(layer_TerminalesProyectadas_1);
+        function pop_TroncalesProyectadas_2(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2"><strong>tipo</strong><br />' + (feature.properties['tipo'] !== null ? Autolinker.link(String(feature.properties['tipo'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>nombre</strong><br />' + (feature.properties['nombre'] !== null ? Autolinker.link(String(feature.properties['nombre'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_TroncalesProyectadas_2_0() {
+            return {
+                pane: 'pane_TroncalesProyectadas_2',
+                opacity: 1,
+                color: 'rgba(186,88,144,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 1.0,
+                fillOpacity: 0,
+            }
+        }
+        map.createPane('pane_TroncalesProyectadas_2');
+        map.getPane('pane_TroncalesProyectadas_2').style.zIndex = 402;
+        map.getPane('pane_TroncalesProyectadas_2').style['mix-blend-mode'] = 'normal';
+		
+		
+		
+		//** anexo
+
+        var layer_TroncalesProyectadas_2 = new L.geoJson(json_TroncalesProyectadas_2, {
+            attribution: '<a href=""></a>',
+            pane: 'pane_TroncalesProyectadas_2',
+            onEachFeature: pop_TroncalesProyectadas_2,
+            style: style_TroncalesProyectadas_2_0,
+        });
+        bounds_group.addLayer(layer_TroncalesProyectadas_2);
+        map.addLayer(layer_TroncalesProyectadas_2);
+        function pop_SistemaintegradodeTransporte_3(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2"><strong>ruta</strong><br />' + (feature.properties['ruta'] !== null ? Autolinker.link(String(feature.properties['ruta'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>nombre</strong><br />' + (feature.properties['nombre'] !== null ? Autolinker.link(String(feature.properties['nombre'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>servicio</strong><br />' + (feature.properties['servicio'] !== null ? Autolinker.link(String(feature.properties['servicio'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>zona</strong><br />' + (feature.properties['zona'] !== null ? Autolinker.link(String(feature.properties['zona'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_SistemaintegradodeTransporte_3_0() {
+            return {
+                pane: 'pane_SistemaintegradodeTransporte_3',
+                opacity: 1,
+                color: 'rgba(145,110,209,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 1.0,
+                fillOpacity: 0,
+            }
+        }
+        map.createPane('pane_SistemaintegradodeTransporte_3');
+        map.getPane('pane_SistemaintegradodeTransporte_3').style.zIndex = 403;
+        map.getPane('pane_SistemaintegradodeTransporte_3').style['mix-blend-mode'] = 'normal';
+        var layer_SistemaintegradodeTransporte_3 = new L.geoJson(json_SistemaintegradodeTransporte_3, {
+            attribution: '<a href=""></a>',
+            pane: 'pane_SistemaintegradodeTransporte_3',
+            onEachFeature: pop_SistemaintegradodeTransporte_3,
+            style: style_SistemaintegradodeTransporte_3_0,
+        });
+        bounds_group.addLayer(layer_SistemaintegradodeTransporte_3);
+        map.addLayer(layer_SistemaintegradodeTransporte_3);
+        function pop_EstacionesdelMio_4(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2"><strong>estacion</strong><br />' + (feature.properties['estacion'] !== null ? Autolinker.link(String(feature.properties['estacion'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>direccion</strong><br />' + (feature.properties['direccion'] !== null ? Autolinker.link(String(feature.properties['direccion'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>clase</strong><br />' + (feature.properties['clase'] !== null ? Autolinker.link(String(feature.properties['clase'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_EstacionesdelMio_4_0() {
+            return {
+                pane: 'pane_EstacionesdelMio_4',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(52,213,31,1.0)',
+            }
+        }
+        map.createPane('pane_EstacionesdelMio_4');
+        map.getPane('pane_EstacionesdelMio_4').style.zIndex = 404;
+        map.getPane('pane_EstacionesdelMio_4').style['mix-blend-mode'] = 'normal';
+        var layer_EstacionesdelMio_4 = new L.geoJson(json_EstacionesdelMio_4, {
+            attribution: '<a href=""></a>',
+            pane: 'pane_EstacionesdelMio_4',
+            onEachFeature: pop_EstacionesdelMio_4,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style_EstacionesdelMio_4_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_EstacionesdelMio_4);
+        map.addLayer(layer_EstacionesdelMio_4);
+        function pop_CentrodeTransito_5(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2"><strong>nombre</strong><br />' + (feature.properties['nombre'] !== null ? Autolinker.link(String(feature.properties['nombre'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>direccion</strong><br />' + (feature.properties['direccion'] !== null ? Autolinker.link(String(feature.properties['direccion'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_CentrodeTransito_5_0() {
+            return {
+                pane: 'pane_CentrodeTransito_5',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(207,0,4,1.0)',
+            }
+        }
+        map.createPane('pane_CentrodeTransito_5');
+        map.getPane('pane_CentrodeTransito_5').style.zIndex = 405;
+        map.getPane('pane_CentrodeTransito_5').style['mix-blend-mode'] = 'normal';
+        var layer_CentrodeTransito_5 = new L.geoJson(json_CentrodeTransito_5, {
+            attribution: '<a href=""></a>',
+            pane: 'pane_CentrodeTransito_5',
+            onEachFeature: pop_CentrodeTransito_5,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style_CentrodeTransito_5_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_CentrodeTransito_5);
+        map.addLayer(layer_CentrodeTransito_5);
+        function pop_CamarasFotomulta_6(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2"><strong>tipo</strong><br />' + (feature.properties['tipo'] !== null ? Autolinker.link(String(feature.properties['tipo'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>direccion</strong><br />' + (feature.properties['direccion'] !== null ? Autolinker.link(String(feature.properties['direccion'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_CamarasFotomulta_6_0() {
+            return {
+                pane: 'pane_CamarasFotomulta_6',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(224,221,0,1.0)',
+            }
+        }
+        map.createPane('pane_CamarasFotomulta_6');
+        map.getPane('pane_CamarasFotomulta_6').style.zIndex = 406;
+        map.getPane('pane_CamarasFotomulta_6').style['mix-blend-mode'] = 'normal';
+        var layer_CamarasFotomulta_6 = new L.geoJson(json_CamarasFotomulta_6, {
+            attribution: '<a href=""></a>',
+            pane: 'pane_CamarasFotomulta_6',
+            onEachFeature: pop_CamarasFotomulta_6,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style_CamarasFotomulta_6_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_CamarasFotomulta_6);
+        map.addLayer(layer_CamarasFotomulta_6);
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'<img src="legend/CamarasFotomulta_6.png" /> Camaras Fotomulta': layer_CamarasFotomulta_6,'<img src="legend/CentrodeTransito_5.png" /> Centro de Transito': layer_CentrodeTransito_5,'<img src="legend/EstacionesdelMio_4.png" /> Estaciones del Mio': layer_EstacionesdelMio_4,'<img src="legend/SistemaintegradodeTransporte_3.png" /> Sistema integrado de Transporte ': layer_SistemaintegradodeTransporte_3,'<img src="legend/TroncalesProyectadas_2.png" /> Troncales Proyectadas': layer_TroncalesProyectadas_2,'<img src="legend/TerminalesProyectadas_1.png" /> Terminales Proyectadas': layer_TerminalesProyectadas_1,"Mapa Base": overlay_MapaBase_0,}).addTo(map);
+        setBounds();
+        map.addControl(new L.Control.Search({
+            layer: layer_EstacionesdelMio_4,
+            initial: false,
+            hideMarkerOnCollapse: true,
+            propertyName: 'estacion'}));
+			
+			//* anexo
+			
+	
+
+function onMapClick(e) {
+    alert("You clicked the map at " + e.latlng);
+}
+
+map.on('click', onMapClick);
+
+
+var popup = L.popup();
+
+function onMapClick(e) {
+    popup
+        .setLatLng(e.latlng)
+        .setContent("You clicked the map at " + e.latlng.toString())
+        .openOn(map);
+}
+
+map.on('click', onMapClick);
+        </script>
+    </body>
+</html>
