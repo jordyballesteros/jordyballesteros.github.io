@@ -1,4 +1,4 @@
-<!doctype html>
+<<!doctype html>
 <html lang="en">
     <head>
         <meta charset="utf-8">
@@ -10,12 +10,9 @@
         <link rel="stylesheet" href="css/qgis2web.css">
         <link rel="stylesheet" href="css/leaflet-search.css">
         <link rel="stylesheet" href="css/leaflet-measure.css">
-		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
-   integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
-   crossorigin=""/>
         <style>
         html, body, #map {
-            width: 100%;
+            width: 100vh;
             height: 100%;
             padding: 0;
             margin: 0;
@@ -43,9 +40,7 @@
         <script src="data/EstacionesdelMio_4.js"></script>
         <script src="data/CentrodeTransito_5.js"></script>
         <script src="data/CamarasFotomulta_6.js"></script>
-	
         <script>
-		
         var highlightLayer;
         function highlightFeature(e) {
             highlightLayer = e.target;
@@ -62,9 +57,8 @@
             }
         }
         var map = L.map('map', {
-            zoomControl:true, maxZoom:28, minZoom:1
-        }).fitBounds([[3.38074204764,-76.58411888],[3.51985886821,-76.3186067333]]);
-		
+            zoomControl:true, maxZoom:27, minZoom:1
+        }).fitBounds([[3.30465605568,-76.7896648561],[3.57861279379,-76.2633911401]]);
         var hash = new L.Hash(map);
         map.attributionControl.addAttribution('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a>');
         L.control.locate().addTo(map);
@@ -78,11 +72,11 @@
         var bounds_group = new L.featureGroup([]);
         function setBounds() {
         }
-        var overlay_MapaBase_0 = L.tileLayer('http://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        var overlay_GoogleRoad_0 = L.tileLayer('https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
             opacity: 1.0
         });
-        overlay_MapaBase_0.addTo(map);
-        map.addLayer(overlay_MapaBase_0);
+        overlay_GoogleRoad_0.addTo(map);
+        map.addLayer(overlay_GoogleRoad_0);
         function pop_TerminalesProyectadas_1(feature, layer) {
             layer.on({
                 mouseout: function(e) {
@@ -163,11 +157,6 @@
         map.createPane('pane_TroncalesProyectadas_2');
         map.getPane('pane_TroncalesProyectadas_2').style.zIndex = 402;
         map.getPane('pane_TroncalesProyectadas_2').style['mix-blend-mode'] = 'normal';
-		
-		
-		
-		//** anexo
-
         var layer_TroncalesProyectadas_2 = new L.geoJson(json_TroncalesProyectadas_2, {
             attribution: '<a href=""></a>',
             pane: 'pane_TroncalesProyectadas_2',
@@ -385,7 +374,7 @@
         bounds_group.addLayer(layer_CamarasFotomulta_6);
         map.addLayer(layer_CamarasFotomulta_6);
         var baseMaps = {};
-        L.control.layers(baseMaps,{'<img src="legend/CamarasFotomulta_6.png" /> Camaras Fotomulta': layer_CamarasFotomulta_6,'<img src="legend/CentrodeTransito_5.png" /> Centro de Transito': layer_CentrodeTransito_5,'<img src="legend/EstacionesdelMio_4.png" /> Estaciones del Mio': layer_EstacionesdelMio_4,'<img src="legend/SistemaintegradodeTransporte_3.png" /> Sistema integrado de Transporte ': layer_SistemaintegradodeTransporte_3,'<img src="legend/TroncalesProyectadas_2.png" /> Troncales Proyectadas': layer_TroncalesProyectadas_2,'<img src="legend/TerminalesProyectadas_1.png" /> Terminales Proyectadas': layer_TerminalesProyectadas_1,"Mapa Base": overlay_MapaBase_0,}).addTo(map);
+        L.control.layers(baseMaps,{'<img src="legend/CamarasFotomulta_6.png" /> Camaras Fotomulta': layer_CamarasFotomulta_6,'<img src="legend/CentrodeTransito_5.png" /> Centro de Transito': layer_CentrodeTransito_5,'<img src="legend/EstacionesdelMio_4.png" /> Estaciones del Mio': layer_EstacionesdelMio_4,'<img src="legend/SistemaintegradodeTransporte_3.png" /> Sistema integrado de Transporte ': layer_SistemaintegradodeTransporte_3,'<img src="legend/TroncalesProyectadas_2.png" /> Troncales Proyectadas': layer_TroncalesProyectadas_2,'<img src="legend/TerminalesProyectadas_1.png" /> Terminales Proyectadas': layer_TerminalesProyectadas_1,"Google Road": overlay_GoogleRoad_0,}).addTo(map);
         setBounds();
         map.addControl(new L.Control.Search({
             layer: layer_EstacionesdelMio_4,
@@ -393,16 +382,19 @@
             hideMarkerOnCollapse: true,
             propertyName: 'estacion'}));
 			
-			//* anexo
 			
-	
-
-function onMapClick(e) {
+			
+			
+			// anexos 
+			
+			
+			
+			
+			function onMapClick(e) {
     alert("You clicked the map at " + e.latlng);
 }
 
 map.on('click', onMapClick);
-
 
 var popup = L.popup();
 
@@ -414,6 +406,10 @@ function onMapClick(e) {
 }
 
 map.on('click', onMapClick);
+			
+			
+			
+			
         </script>
     </body>
 </html>
